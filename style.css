@@ -1,0 +1,49 @@
+*,
+*:after,
+:before {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body {
+  position: relative;
+  font-size: 15px;
+}
+#canvas {
+  display: block;
+}
+.btn__start {
+  font-size: 15px;
+  width: 5em;
+  height: 2em;
+  padding: 0.33em 1em;
+  margin-right: 0.66em;
+  font-weight: bold;
+  border: 2px solid black;
+  border-radius: 3px;
+}
+#color {
+  width: 4em;
+  height: 2em;
+  margin-right: 0.5em;
+}
+#resolution {
+  width: 4.5em;
+}
+.setting {
+  position: absolute;
+  display: flex;
+  margin: 0.67em;
+}
+#generation {
+  font-weight: bold;
+  padding: 0.3em;
+  margin-left: 0.5em;
+  background-color: white;
+  border-radius: 4px;
+}
+@media (max-width: 400px) {
+  .btn__start {
+    font-size: 13px;
+  }
+}
