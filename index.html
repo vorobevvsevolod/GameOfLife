@@ -5,18 +5,59 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com"     crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <title>Game of Life</title>
 </head>
-<body>
+<body onclick="bodyClick(event)">
     <div class="setting">
-        <button class="btn__start" onclick="StartGame()">Старт</button>
-        <button class="btn__start" onclick="Stop()">Стоп</button>
-        <input type="color" id="color" value="#E23CD4"/>
-        <input type="range" min="2" max="25" value="2" id="resolution">
-        <p id="generation"></p>
-
+        <button class="btn__start" id="start" onclick="StartGame()">Старт</button>
+        <button class="btn__start" id="stop"  onclick="Stop()">Стоп</button>
+        <p id="generation">Поколение: 0 </p>
+        
     </div>
+    <button class="btn__burgers" onclick="settingsOpen()">
+        
+    </button>
     
+    <div class="settings" id="settings">
+        <h1>Настройки</h2>
+        <h3>Правила игры:</h3>
+        <p class="burn">Рождение от 
+            <input type="number" class="number" value="3" min="0" max="8" id="burnTo"> до 
+            <input type="number" class="number" value="3" min="0" max="8"id="burnUp">
+        </p>
+        <p class="burn">Выживание от 
+            <input type="number" class="number" value="2" min="0" max="8" id="saveTo"> до 
+            <input type="number" class="number" value="3" min="0" max="8"id="saveUp">
+        </p>
+        <div class="speedP">Скорость:
+        <select id="speedSelect" onchange="changeSelect()" >
+            <option value="1000">1x</option>
+            <option value="500">2x</option>
+            <option value="200">5x</option>
+            <option  value="100">10x</option>
+            <option selected="speedSelect" value="50">20x</option>
+            <option value="20">50x</option>
+            <option value="10">100x</option>
+            </select>
+        </div>
+        <div class="color__txt">Цвет
+            <input type="color" id="color" value="#E23CD4"/>
+        </div>
+        <div class="resolution__txt">Разрешение
+            <input type="range" min="2" max="25" value="2" id="resolution">
+        </div>
+        <select id="presset" onchange="changePressetRuls()" >
+            <option selected="speedSelect" value="1">B3/S23</option>
+            <option value="2">B3/Sall</option>
+            <option value="3">B5678/S45678</option>
+            <option  value="4">B1/Sall</option>
+            <option  value="5">B2/S2345</option>
+            </select>
+        <button id="clear" onclick="clearMap()">Очистить поле</button>
+    </div>
     <canvas id="canvas">
 
     </canvas>
