@@ -11,6 +11,7 @@ html {
 body {
   position: relative;
   font-family: 'Roboto', sans-serif;
+  background-color: black;
 }
 #canvas {
   display: block;
@@ -54,11 +55,12 @@ body {
   border-radius: 10px;
   z-index: 1;
   position: absolute;
-  background-color: white;
+  background-color: #2a2a2a;
   width: 20em;
-  height: 26em;
+  height: 23.5em;
   padding: 0.67em;
   font-weight: bold;
+  color: white;
 }
 .settings h1 {
   margin-left: 0.67em;
@@ -107,7 +109,7 @@ body {
   font-size: 1.3em;
   padding-left: 0.67em;
   margin-top: 1.1em;
-  color: #3a2439;
+  color: #b53daf;
 }
 #resolution {
   width: 4.5em;
@@ -145,6 +147,9 @@ body {
   }
   .burn {
     margin-left: 1.4em;
+  }
+  .settings {
+    height: 26em;
   }
   .settings h1 {
     margin-top: 0em;

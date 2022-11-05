@@ -6,9 +6,8 @@ const generationP = document.getElementById('generation')
 
 let resolution = resolutionInput.value;
 //Размер игрового поля
-const WIDHT = window.screen.width;
-const HEIGHT = window.screen.height;
-
+const WIDHT = window.innerWidth;
+const HEIGHT = window.innerHeight;
 
 let interval;
 let timeInterval;
@@ -48,7 +47,7 @@ window.onload = () =>{
     canvas.width = WIDHT;
     canvas.height = HEIGHT;
     
-    //document.getElementById('settings').hidden = true
+    document.getElementById('settings').hidden = true
     timeInterval = document.getElementById('speedSelect').value;
     contextCanvas.fillStyle = COLOR_BACKGROUND;
     contextCanvas.fillRect(0,0,WIDHT,HEIGHT);
@@ -110,7 +109,7 @@ resolutionInput.addEventListener("input", () => {
     resolution = resolutionInput.value;
     widthMap = Math.floor(WIDHT / resolution);
     heightMap = Math.floor(HEIGHT / resolution);
-    StartGame()
+    restartGame();
 });
 
 const StartGame = () =>{
@@ -122,8 +121,8 @@ const StartGame = () =>{
 
     
     if(gameStop && !startGame) gameStop = false;
-    if(!gameStop) document.getElementById('start').textContent = 'Стоп'; else 
-    document.getElementById('start').textContent = 'Старт';
+    if(!gameStop) {document.getElementById('start').textContent = 'Стоп';interval = setInterval(GameStep, timeInterval)} else 
+    {document.getElementById('start').textContent = 'Старт';clearInterval(interval);}
 
     contextCanvas.fillStyle = colorCell;
      
@@ -164,16 +163,15 @@ const StartLife = () =>{
 }
 
 const PrintMap = () =>{
-    contextCanvas.fillStyle = COLOR_BACKGROUND;
-    contextCanvas.fillRect(0,0, WIDHT, HEIGHT);
-    contextCanvas.fillStyle = colorCell;
-    for(y = 1; y < heightMap - 1; y++)
-        for(x = 1; x < widthMap - 1; x++)
+    contextCanvas.clearRect(0,0, WIDHT, HEIGHT)
+    for(y = 0; y < heightMap - 1; y++)
+        for(x = 0; x < widthMap - 1; x++)
         if(Map[x + y * widthMap] == 1)
             contextCanvas.fillRect(
             (x * resolution), 
             (y * resolution), 
-            resolution- 0.5, resolution - 0.5) 
+            (resolution- 0.5), (resolution - 0.5) )  
+    
 }
 
 const GameStep = () =>{
@@ -218,7 +216,7 @@ const bodyClick = (event) =>{
     posX = Math.floor(event.clientX / resolution)
     posY = Math.floor(event.clientY / resolution)
     
-    if(!openSeting)AddRemoveCell(event.ctrlKey)
+    AddRemoveCell(event.ctrlKey)
 }
 
 
