@@ -47,7 +47,7 @@ window.onload = () =>{
     canvas.width = WIDHT;
     canvas.height = HEIGHT;
     
-    document.getElementById('settings').hidden = true
+    //document.getElementById('settings').hidden = true
     timeInterval = document.getElementById('speedSelect').value;
     contextCanvas.fillStyle = COLOR_BACKGROUND;
     contextCanvas.fillRect(0,0,WIDHT,HEIGHT);

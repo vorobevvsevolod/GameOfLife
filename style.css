@@ -80,10 +80,12 @@ body {
 .number {
   padding-left: 0.34em;
   margin: 0px 0.6em;
+  font-weight: bold;
   width: 2.3em;
   border: 1px solid black;
   border-radius: 3px;
   color: red;
+  background-color: #575252;
 }
 .speedP {
   display: flex;
@@ -97,13 +99,15 @@ body {
   padding: 1px 0.67em;
   font-weight: bold;
   border-radius: 3px;
-  border: 2px solid black;
+  color: white;
+  border: 2px solid white;
+  background-color: #2a2a2a;
 }
 .color__txt {
   font-size: 1.3em;
   padding-left: 0.67em;
   margin-top: 0.6em;
-  color: #22269e;
+  color: #18b5d9;
 }
 .resolution__txt {
   font-size: 1.3em;
@@ -126,7 +130,9 @@ body {
   margin-left: 0.8em;
   font-weight: bold;
   border-radius: 3px;
-  border: 2px solid black;
+  border: 2px solid white;
+  background-color: #2a2a2a;
+  color: white;
 }
 #clear {
   position: absolute;
@@ -136,6 +142,8 @@ body {
   padding: 0.2em 0.6em;
   border: 2.5px solid #f14e2f;
   border-radius: 0.34em;
+  background-color: #2a2a2a;
+  color: white;
   font-weight: bold;
 }
 @media (max-width: 400px) {
