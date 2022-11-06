@@ -10,16 +10,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <title>Game of Life</title>
 </head>
-<body onclick="bodyClick(event)">
+<body onclick="bodyClick(event)" id="body">
     <div class="setting">
         <button class="btn__start" id="start" onclick="StartGame()">Старт</button>
         <button class="btn__start" id="stop"  onclick="Stop()">Стоп</button>
         <p id="generation">Поколение: 0 </p>
         
     </div>
-    <button class="btn__burgers" onclick="settingsOpen()">
-        
-    </button>
+    <div class="hamburger-menu" >
+        <input id="menu__toggle" type="checkbox"onclick="settingsOpen()" />
+         <label class="menu__btn" for="menu__toggle">
+       <span></span>
+     </div>
     
     <div class="settings" id="settings">
         <h1>Настройки</h2>
@@ -38,25 +40,29 @@
             <option value="500">2x</option>
             <option value="200">5x</option>
             <option  value="100">10x</option>
-            <option selected="speedSelect" value="50">20x</option>
+            <option  value="50">20x</option>
             <option value="20">50x</option>
-            <option value="10">100x</option>
+            <option selected="speedSelect" value="1">100x</option>
             </select>
         </div>
         <div class="color__txt">Цвет:
+            <input type="color" id="colorBody" value="#000000"/>
             <input type="color" id="color" value="#E23CD4"/>
         </div>
         <div class="resolution__txt">Разрешение:
-            <input type="range" min="2" max="25" value="2" id="resolution">
+            <input type="range" min="2" max="25" value="3" id="resolution">
         </div>
         <select id="presset" onchange="changePressetRuls()" >
-            <option selected="speedSelect" value="1">B3/S23</option>
+            <option value="1">B3/S23</option>
             <option value="2">B3/Sall</option>
             <option value="3">B5678/S45678</option>
-            <option  value="4">B1/Sall</option>
-            <option  value="5">B2/S2345</option>
+            <option value="4">B1/Sall</option>
+            <option value="5">B2/S2345</option>
             </select>
         <button id="clear" onclick="clearMap()">Очистить поле</button>
+        <div class="brushes">
+            Режим кисти: <button id="brushes__btn" >Рисование</button>
+        </div>
     </div>
     <canvas id="canvas">
 
@@ -64,4 +70,5 @@
 </body>
 
 <script src="index.js"></script>
+<script src="events.js"></script>
 </html>

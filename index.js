@@ -1,7 +1,19 @@
+'use strict'
+//Canvas
 const canvas = document.getElementById('canvas');
 const contextCanvas = canvas.getContext("2d");
+
+//Цвет
 const colorInput = document.getElementById('color');
+let colorCell = colorInput.value;
+
+let colorBodyInput = document.getElementById('colorBody')
+
+
+//Разрешение
 const resolutionInput = document.getElementById('resolution');
+
+//Кол-во поколений
 const generationP = document.getElementById('generation')
 
 let resolution = resolutionInput.value;
@@ -9,12 +21,15 @@ let resolution = resolutionInput.value;
 const WIDHT = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
-let interval;
-let timeInterval;
+//Анимация
+let requestFrameId;
+
+//Размер игрового поля
 let widthMap = Math.floor(WIDHT / resolution);
 let heightMap = Math.floor(HEIGHT / resolution);
+
+//Кол-во поколений
 let countGeneration = 0;
-let openSeting = false;
 
 //Правили игры
 let burnTo = document.getElementById('burnTo');
@@ -31,210 +46,169 @@ let saveUpValue = saveUp.value;
 //Положение курсора на экране
 let posX;
 let posY;
-let drawInMap = false;
+//Флаги
 let gameStop = false;
-let clearMapBool = false;
 let startGame = false;
+let openSeting = false;
+let modeBrushes = true;
+
 //Массивы для поля
 let Map;
 let NewMap;
 
-//цвета
-const COLOR_BACKGROUND = "#000000";
-let colorCell = colorInput.value;
+//Скорость игры
+let startTime = null, stepInMs = document.getElementById('speedSelect').value;
 
 window.onload = () =>{
     canvas.width = WIDHT;
     canvas.height = HEIGHT;
-    
-    //document.getElementById('settings').hidden = true
-    timeInterval = document.getElementById('speedSelect').value;
-    contextCanvas.fillStyle = COLOR_BACKGROUND;
-    contextCanvas.fillRect(0,0,WIDHT,HEIGHT);
-    
+
+    document.getElementById('body').style.backgroundColor = colorBodyInput.value;
+    Map = [widthMap * heightMap]
+    NewMap = [widthMap * heightMap]
 }
-
-const settingsOpen = () =>{
-   if(openSeting) openSeting = false; else openSeting = true;
-
-   if(openSeting) document.getElementById('settings').hidden = false
-   if(!openSeting)document.getElementById('settings').hidden = true
-}
-
-//Событие изменения правил игры
-burnTo.addEventListener("input", () =>{
-    burnToValue = burnTo.value
-}, false);
-
-burnUp.addEventListener("input", () =>{
-    burnUpValue = burnUp.value
-}, false);
-
-saveTo.addEventListener("input", () =>{
-    saveToValue = saveTo.value
-}, false);
-
-saveUp.addEventListener("input", () =>{
-    saveUpValue = saveUp.value
-}, false);
-
-const changePressetRuls = () =>{
-    switch(pressetRuls.value){
-        case "1": burnToValue = 3; burnUpValue = 3; saveToValue = 2; saveUpValue = 3; break;
-        case "2": burnToValue = 3; burnUpValue = 3; saveToValue = 0; saveUpValue = 8; break;
-        case "3": burnToValue = 5; burnUpValue = 8; saveToValue = 4; saveUpValue = 8; break;
-        case "4": burnToValue = 1; burnUpValue = 1; saveToValue = 0; saveUpValue = 8; break;
-        case "5": burnToValue = 2; burnUpValue = 2; saveToValue = 2; saveUpValue = 5; break;
-    }
-}
-
-//Событие изменения скорости
-const changeSelect = () =>{
-    clearInterval(interval);
-    timeInterval = document.getElementById('speedSelect').value;
-    interval = setInterval(GameStep, Number(timeInterval));
-}
-//Событие изменения цвета клеток
-colorInput.addEventListener("input" , () =>{
-    clearInterval(interval);
-    colorCell = colorInput.value;
-    contextCanvas.fillStyle = colorCell;
-    interval = setInterval(GameStep, timeInterval)
-}, false);
-
-//событие изменения resolution
-resolutionInput.addEventListener("input", () => {
-    clearInterval(interval);
-    countGeneration = 0
-    resolution = resolutionInput.value;
-    widthMap = Math.floor(WIDHT / resolution);
-    heightMap = Math.floor(HEIGHT / resolution);
-    restartGame();
-});
 
 const StartGame = () =>{
-    if(!startGame)restartGame();
-    
-    
-    interval = setInterval(GameStep, timeInterval)
-    if(gameStop) gameStop = false; else gameStop = true;
+    if(!startGame){
+        restartGame();
+        document.getElementById('stop').textContent = 'Заново';
+    }
+    gameStop = gameStop ? false : true;
 
-    
     if(gameStop && !startGame) gameStop = false;
-    if(!gameStop) {document.getElementById('start').textContent = 'Стоп';interval = setInterval(GameStep, timeInterval)} else 
-    {document.getElementById('start').textContent = 'Старт';clearInterval(interval);}
 
+    if(gameStop) {document.getElementById('start').textContent = 'Старт'; cancelAnimationFrame(requestFrameId);} else 
+    {document.getElementById('start').textContent = 'Стоп'; requestFrameId = requestAnimationFrame(GameStep);}
     contextCanvas.fillStyle = colorCell;
-     
-    document.getElementById('stop').textContent = 'Заново'
+    
     startGame = true;
 }
 
 const restartGame = () =>{
-    clearInterval(interval);
     Map = [widthMap * heightMap]
     NewMap = [widthMap * heightMap]
     StartLife()
     countGeneration = 0
-    interval = setInterval(GameStep, timeInterval)
 }
 
 //Очистка поля
 const clearMap = () =>{
     countGeneration = 0;
-    for(y = 1; y < heightMap - 1; y++)
-        for(x = 1; x < widthMap - 1; x++)
+    for(let y = 1; y < heightMap - 1; y++)
+        for(let x = 1; x < widthMap - 1; x++)
         Map[x + y * widthMap] = 0;
-    interval = setInterval(GameStep, timeInterval)
-    clearMapBool = true;
+    requestAnimationFrame(PrintRequstMap)
 }
-
 
 const Stop = () =>{
-    clearInterval(interval);
     if(startGame) restartGame();
-
 }
 
+//Заполнения игрового поля начальными значениями
 const StartLife = () =>{
-    for(y = 1; y < heightMap - 1; y++)
-        for(x = 1; x < widthMap - 1; x++)
+    for(let y = 1; y < heightMap - 1; y++)
+        for(let x = 1; x < widthMap - 1; x++)
             Map[x + y * widthMap] = Math.floor(Math.random() * 2) 
 }
 
+//Отрисовка игры на Canvas
 const PrintMap = () =>{
     contextCanvas.clearRect(0,0, WIDHT, HEIGHT)
-    for(y = 0; y < heightMap - 1; y++)
-        for(x = 0; x < widthMap - 1; x++)
+    contextCanvas.beginPath()
+    let sizePixel = resolution - resolution / 10;
+    for(let y = 1; y < heightMap - 1; y++)
+        for(let x = 1; x < widthMap - 1; x++)
         if(Map[x + y * widthMap] == 1)
-            contextCanvas.fillRect(
+            contextCanvas.rect(
             (x * resolution), 
             (y * resolution), 
-            (resolution- 0.5), (resolution - 0.5) )  
+            sizePixel, sizePixel )  
+    contextCanvas.fill()
+    contextCanvas.closePath()
+}
+let time = 0;
+
+//По кадровая отрисовка игры
+const GameStep = (timestamp) =>{
+    
+    let progress;
+    if (startTime === null) startTime = timestamp;
+    progress = timestamp - startTime;
+
+    if(progress > stepInMs){
+        NextGeneration()
+        const diff = timestamp - time;
+        PrintMap()
+        time = timestamp;
+        generationP.textContent = "Поколение: "+ Math.floor( diff );
+        
+        startTime = timestamp
+    }
+    
+    requestFrameId = requestAnimationFrame(GameStep); 
+
     
 }
 
-const GameStep = () =>{
-    
-    if(!gameStop)NextGeneration()
-    PrintMap()
-    generationP.textContent = "Поколение: "+ countGeneration;
-
-    if(clearMapBool){clearInterval(interval); clearMapBool = false; return}
-    if(drawInMap){clearInterval(interval); drawInMap = false;}
+//Обновление экрана игры
+const PrintRequstMap = () =>{
+    PrintMap();
 }
 
+//Вычисления нового поколения
 const NextGeneration = () =>{
-    let pos;
+    
     countGeneration++;
-    for(y = 1; y < heightMap - 1; y++)
-        for(x = 1; x < widthMap - 1; x++){
-            pos = (x + y * widthMap)
+    for(let y = 1; y < heightMap - 1; y++)
+        for(let x = 1; x < widthMap - 1; x++){
+            let pos = (x + y * widthMap)
 
-            let buffer = (
-                Map[pos + 1] +
-                Map[pos - 1] +
-                Map[pos + widthMap] +
-                Map[pos - widthMap] +
+            let buffer = Map[pos + 1];
+                buffer+=Map[pos - 1];
+                buffer+=Map[pos + widthMap]; 
+                buffer+=Map[pos - widthMap];
 
-                Map[pos - widthMap - 1] +
-                Map[pos - widthMap + 1] +
-                Map[pos + widthMap + 1] +
-                Map[pos + widthMap - 1] )
+                buffer+=Map[pos - widthMap - 1];
+                buffer+=Map[pos - widthMap + 1]; 
+                buffer+=Map[pos + widthMap + 1];
+                buffer+=Map[pos + widthMap - 1];
 
                 let keepAlive = Map[pos] == 1 && (buffer >= saveToValue && buffer <= saveUpValue);
                 let makeNewLive = Map[pos] == 0 && (buffer >= burnToValue && buffer <= burnUpValue);
                 NewMap[pos] = keepAlive | makeNewLive;
-                
              }
     let temp = Map;
     Map = NewMap;
     NewMap = temp;
 }
-        
-const bodyClick = (event) =>{
+
+//Нажатие на body
+ const bodyClick = (event) =>{
     posX = Math.floor(event.clientX / resolution)
     posY = Math.floor(event.clientY / resolution)
-    
+    //alert(`${event.clientX} ${event.layerX} ${event.pageX} ${event.screenX} ${event.x} ${event.altitudeAngle}`)
     AddRemoveCell(event.ctrlKey)
-}
-
-
+}  
+//Добавление и удаления клеток
 const AddRemoveCell = (add) =>{
-    if(!add){
-        Map[posX + posY * widthMap] = 1;
-        if(gameStop){
-            drawInMap = true;
-            interval = setInterval(GameStep, timeInterval)}
-       
+    if(window.innerWidth <= 1200){
+        if(modeBrushes){
+            Map[posX + posY * widthMap] = 1;
+            if(gameStop) requestAnimationFrame(PrintRequstMap)
+        }else{
+            Map[posX + posY * widthMap] = 0;
+            if(gameStop) requestAnimationFrame(PrintRequstMap)
+        }
     }else{
-        Map[posX + posY * widthMap] = 0;
-        if(gameStop){
-            drawInMap = true;
-            interval = setInterval(GameStep, timeInterval)}
+        if(!add){
+            Map[posX + posY * widthMap] = 1;
+            if(gameStop) requestAnimationFrame(PrintRequstMap)
+           
+        }else{
+            Map[posX + posY * widthMap] = 0;
+            if(gameStop) requestAnimationFrame(PrintRequstMap)
+        }
     }
+
+    
 }
-
-
-
-
