@@ -38,6 +38,7 @@ const changeSelect = () =>{
 colorInput.addEventListener("input" , () =>{
     colorCell = colorInput.value;
     contextCanvas.fillStyle = colorCell;
+    requestAnimationFrame(PrintRequstMap)
 }, false);
 
 //Событие на изменения цвета фона
