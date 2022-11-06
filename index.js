@@ -25,8 +25,8 @@ const HEIGHT = window.innerHeight;
 let requestFrameId;
 
 //Размер игрового поля
-let widthMap = Math.floor(WIDHT / resolution);
-let heightMap = Math.floor(HEIGHT / resolution);
+let widthMap = Math.floor(WIDHT / resolution) + 2;
+let heightMap = Math.floor(HEIGHT / resolution) + 2;
 
 //Кол-во поколений
 let countGeneration = 0;
@@ -64,8 +64,8 @@ window.onload = () =>{
     canvas.height = HEIGHT;
 
     document.getElementById('body').style.backgroundColor = colorBodyInput.value;
-    Map = [widthMap * heightMap]
-    NewMap = [widthMap * heightMap]
+    Map = new ArrayBuffer(widthMap * heightMap);
+    NewMap = new ArrayBuffer(widthMap * heightMap);
 }
 
 const StartGame = () =>{
@@ -85,8 +85,9 @@ const StartGame = () =>{
 }
 
 const restartGame = () =>{
-    Map = [widthMap * heightMap]
-    NewMap = [widthMap * heightMap]
+    
+    Map = new ArrayBuffer(widthMap * heightMap);
+    NewMap = new ArrayBuffer(widthMap * heightMap);
     StartLife()
     countGeneration = 0
 }
@@ -116,12 +117,12 @@ const PrintMap = () =>{
     contextCanvas.clearRect(0,0, WIDHT, HEIGHT)
     contextCanvas.beginPath()
     let sizePixel = resolution - resolution / 10;
-    for(let y = 1; y < heightMap - 1; y++)
-        for(let x = 1; x < widthMap - 1; x++)
+    for(let y = 0; y < heightMap ; y++)
+        for(let x = 0; x < widthMap ; x++)
         if(Map[x + y * widthMap] == 1)
             contextCanvas.rect(
-            (x * resolution), 
-            (y * resolution), 
+            (x * resolution) - resolution / 1.4, 
+            (y * resolution) - resolution / 1.4, 
             sizePixel, sizePixel )  
     contextCanvas.fill()
     contextCanvas.closePath()
@@ -130,7 +131,7 @@ let time = 0;
 
 //По кадровая отрисовка игры
 const GameStep = (timestamp) =>{
-    //const diff = timestamp - time;
+    const diff = timestamp - time;
     let progress;
     if (startTime === null) startTime = timestamp;
     progress = timestamp - startTime;
@@ -140,14 +141,11 @@ const GameStep = (timestamp) =>{
         
         PrintMap()
         
-        
         startTime = timestamp
     }
-    
+    time = timestamp;
+    generationP.textContent = "Поколение: "+ Math.floor(1000/ diff );
     requestFrameId = requestAnimationFrame(GameStep); 
-    generationP.textContent = "Поколение: "+ countGeneration;
-    //time = timestamp;
-    //generationP.textContent = "Поколение: "+ Math.floor( diff );
 }
 
 //Обновление экрана игры
@@ -167,15 +165,16 @@ const NextGeneration = () =>{
                 buffer+=Map[pos - 1];
                 buffer+=Map[pos + widthMap]; 
                 buffer+=Map[pos - widthMap];
-
-                buffer+=Map[pos - widthMap - 1];
-                buffer+=Map[pos - widthMap + 1]; 
-                buffer+=Map[pos + widthMap + 1];
-                buffer+=Map[pos + widthMap - 1];
+                if(buffer < 4){
+                    buffer+=Map[pos - widthMap - 1];
+                    buffer+=Map[pos - widthMap + 1]; 
+                    buffer+=Map[pos + widthMap + 1];
+                    buffer+=Map[pos + widthMap - 1];
+                }
 
                 let keepAlive = Map[pos] == 1 && (buffer >= saveToValue && buffer <= saveUpValue);
                 let makeNewLive = Map[pos] == 0 && (buffer >= burnToValue && buffer <= burnUpValue);
-                NewMap[pos] = keepAlive | makeNewLive;
+                NewMap[pos] = keepAlive | makeNewLive ? 1 : 0;
              }
     let temp = Map;
     Map = NewMap;
@@ -184,10 +183,10 @@ const NextGeneration = () =>{
 
 //Нажатие на body
  const bodyClick = (event) =>{
-    posX = Math.floor(event.clientX / resolution)
-    posY = Math.floor(event.clientY / resolution)
+    posX = Math.round(event.clientX / resolution)
+    posY = Math.round(event.clientY / resolution)
     //alert(`${event.clientX} ${event.layerX} ${event.pageX} ${event.screenX} ${event.x} ${event.altitudeAngle}`)
-    AddRemoveCell(event.ctrlKey)
+    if((posX != 0 && posY != 0) &&(posX != widthMap && posY != heightMap))AddRemoveCell(event.ctrlKey)
 }  
 //Добавление и удаления клеток
 const AddRemoveCell = (add) =>{

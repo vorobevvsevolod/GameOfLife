@@ -50,8 +50,8 @@ colorBodyInput.addEventListener("input", ()=>{
 resolutionInput.addEventListener("input", () => {
     countGeneration = 0
     resolution = resolutionInput.value;
-    widthMap = Math.floor(WIDHT / resolution);
-    heightMap = Math.floor(HEIGHT / resolution);
+    widthMap = Math.floor(WIDHT / resolution) + 2;
+    heightMap = Math.floor(HEIGHT / resolution) + 2;
 
     restartGame();
     requestAnimationFrame(PrintRequstMap)
