@@ -130,24 +130,24 @@ let time = 0;
 
 //По кадровая отрисовка игры
 const GameStep = (timestamp) =>{
-    
+    //const diff = timestamp - time;
     let progress;
     if (startTime === null) startTime = timestamp;
     progress = timestamp - startTime;
 
     if(progress > stepInMs){
         NextGeneration()
-        const diff = timestamp - time;
+        
         PrintMap()
-        time = timestamp;
-        generationP.textContent = "Поколение: "+ Math.floor( diff );
+        
         
         startTime = timestamp
     }
     
     requestFrameId = requestAnimationFrame(GameStep); 
-
-    
+    generationP.textContent = "Поколение: "+ countGeneration;
+    //time = timestamp;
+    //generationP.textContent = "Поколение: "+ Math.floor( diff );
 }
 
 //Обновление экрана игры
