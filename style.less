@@ -121,7 +121,7 @@ background-color: black;
     position: absolute;
     background-color: #2a2a2a;
     width: 20em;
-    height: 23.5em;
+    height: 25em;
     padding: 0.67em;
     font-weight: bold;
     color: white;
@@ -135,7 +135,7 @@ background-color: black;
     }
 
     h3{
-        margin-top: 1em;
+        margin-top: 0.5em;
         color: #599d62;
         margin-left: 0.67em;
     }
@@ -200,7 +200,7 @@ background-color: black;
 .resolution__txt{
     font-size: 1.3em;
     padding-left: 0.67em;
-    margin-top: 1.1em;
+    margin-top: 0.9em;
     color: #b53daf;
 }
 #resolution{
@@ -216,7 +216,7 @@ background-color: black;
 
 #presset{
     padding: 0px 1em;
-    margin-top: 0.6em;
+    margin-top: 0.8em;
     margin-left: 0.8em;
     font-weight: bold;
     border-radius: 3px;
@@ -242,7 +242,7 @@ background-color: black;
 .brushes{
     display: none;
     margin-left: 0.8em;
-    margin-top: 0.7em;
+    margin-top: 0.5em;
     font-weight: bold;
     font-size: 1.2em;
 
@@ -256,13 +256,29 @@ background-color: black;
     }
 }
 
+.modeStep{
+    position: relative;
+    margin-left: 0.8em;
+    margin-top: 0.8em;
+    font-weight: bold;
+    font-size: 1.2em;
+
+    input{
+        position: absolute;
+        top: 8%;
+        margin-left: 5px;
+        width: 1.5em;
+        height: 1.5em;
+    }
+}
+
 @media (max-width: 1200px) {
     .brushes{
         display: block;
     }
     .settings{
 
-        height: 26em;
+        height: 27.5em;
     }
 
 }
@@ -271,10 +287,6 @@ background-color: black;
 and (min-device-width : 320px) 
 and (max-device-width : 480px) {
 
-    .brushes{
-        margin-top: 1.1em;
-    }
-    
     .btn__start{
         font-size: 13px;
     }
@@ -293,7 +305,7 @@ and (max-device-width : 480px) {
             margin-top: 0em;
             margin-left: 0.3em;
         }
-        height: 29em;
+        height: 31em;
     }
 
     .number{
@@ -314,5 +326,16 @@ and (max-device-width : 480px) {
         top: 3.3%;
         right: 3%;   
     }
+
+    input{
+        margin-left: 5px;
+        width: 1.2em;
+        height: 1.2em;
+    }
+
+    .brushes{
+        margin-left: 0.8em;
+        margin-top: 1em;
+    }    
 
 }

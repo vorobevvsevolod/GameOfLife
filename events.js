@@ -94,4 +94,22 @@ buttonBrushesMode.addEventListener("click", ()=>{
     }
 })
 
+//Режим шага
+
+const modeStepChecked = () =>{
+    modeStepGame = document.getElementById('checkboxStep').checked;
+    if(modeStepGame){
+        document.getElementById('start').textContent = 'Шаг';
+        document.getElementById('start').style.backgroundColor = "#d11544"
+        cancelAnimationFrame(requestFrameId);
+        gameStop = true;
+    }else{
+        document.getElementById('start').textContent = 'Стоп'; requestFrameId = requestAnimationFrame(GameStep);
+        document.getElementById('start').style.backgroundColor = "#ffffff"
+        gameStop = false;
+    }
+    
+    
+}
+
 

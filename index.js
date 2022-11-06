@@ -51,6 +51,7 @@ let gameStop = false;
 let startGame = false;
 let openSeting = false;
 let modeBrushes = true;
+let modeStepGame = document.getElementById('checkboxStep').checked;
 
 //Массивы для поля
 let Map;
@@ -62,7 +63,7 @@ let startTime = null, stepInMs = document.getElementById('speedSelect').value;
 window.onload = () =>{
     canvas.width = WIDHT;
     canvas.height = HEIGHT;
-
+    contextCanvas.fillStyle = colorCell;
     document.getElementById('body').style.backgroundColor = colorBodyInput.value;
     Map = new ArrayBuffer(widthMap * heightMap);
     NewMap = new ArrayBuffer(widthMap * heightMap);
@@ -73,13 +74,17 @@ const StartGame = () =>{
         restartGame();
         document.getElementById('stop').textContent = 'Заново';
     }
-    gameStop = gameStop ? false : true;
+    
 
-    if(gameStop && !startGame) gameStop = false;
+    if(modeStepGame){
+        requestAnimationFrame(GameStepMode)
+    }else{
+        gameStop = gameStop ? false : true;
 
-    if(gameStop) {document.getElementById('start').textContent = 'Старт'; cancelAnimationFrame(requestFrameId);} else 
-    {document.getElementById('start').textContent = 'Стоп'; requestFrameId = requestAnimationFrame(GameStep);}
-    contextCanvas.fillStyle = colorCell;
+        if(gameStop && !startGame) gameStop = false;
+        if(gameStop) {document.getElementById('start').textContent = 'Старт'; cancelAnimationFrame(requestFrameId);} else 
+        {document.getElementById('start').textContent = 'Стоп'; requestFrameId = requestAnimationFrame(GameStep);}
+    }
     
     startGame = true;
 }
@@ -127,11 +132,11 @@ const PrintMap = () =>{
     contextCanvas.fill()
     contextCanvas.closePath()
 }
-let time = 0;
+//let time = 0;
 
 //По кадровая отрисовка игры
 const GameStep = (timestamp) =>{
-    const diff = timestamp - time;
+    //const diff = timestamp - time;
     let progress;
     if (startTime === null) startTime = timestamp;
     progress = timestamp - startTime;
@@ -143,8 +148,8 @@ const GameStep = (timestamp) =>{
         
         startTime = timestamp
     }
-    time = timestamp;
-    generationP.textContent = "Поколение: "+ Math.floor(1000/ diff );
+    //time = timestamp;
+    generationP.textContent = "Поколение: "+ countGeneration;
     requestFrameId = requestAnimationFrame(GameStep); 
 }
 
@@ -153,9 +158,13 @@ const PrintRequstMap = () =>{
     PrintMap();
 }
 
+const GameStepMode = () =>{
+    NextGeneration()
+    PrintMap()
+}
+
 //Вычисления нового поколения
 const NextGeneration = () =>{
-    
     countGeneration++;
     for(let y = 1; y < heightMap - 1; y++)
         for(let x = 1; x < widthMap - 1; x++){
