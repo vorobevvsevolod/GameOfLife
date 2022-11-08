@@ -121,7 +121,7 @@ background-color: black;
     position: absolute;
     background-color: #2a2a2a;
     width: 20em;
-    height: 25em;
+    height: auto;
     padding: 0.67em;
     font-weight: bold;
     color: white;
@@ -159,7 +159,7 @@ background-color: black;
 .burn{
     display: flex;
     font-weight: bold;
-    margin-top: 1em;
+    margin-top: 0.5em;
     margin-left: 2em;
 }
 
@@ -178,10 +178,15 @@ background-color: black;
     font-size: 16px;
     color: #e5898c;
     padding-left: 0.67em;
-    margin-top: 0.7em;
+    margin-top: 1em;
 }
 
-#speedSelect{
+.okr{
+    margin-top: 0.5em;
+    color: #fc060e;
+}
+
+#speedSelect, #speedSelect2{
     margin-left: 1.2em;
     padding: 1px 0.67em;
     font-weight: bold;
@@ -191,26 +196,50 @@ background-color: black;
     background-color: #2a2a2a;
 }
 
+#okrSelect{
+    margin-left: 1.2em;
+    padding: 1px 0.67em;
+    font-weight: bold;
+    border-radius: 3px;
+    color: white;
+    border: 2px solid white;
+    background-color: #2a2a2a;
+}
+
+
 .color__txt{
     font-size: 1.3em;
     padding-left: 0.67em;
     margin-top: 0.6em;
     color: #18b5d9;
 }
+
+
 .resolution__txt{
     font-size: 1.3em;
     padding-left: 0.67em;
     margin-top: 0.9em;
     color: #b53daf;
 }
-#resolution{
+#resolution, #resolution2{
     width: 4.5em;
     margin-left: 1em;
 }
 
-#color{
+.color__cell{
+    margin-top: 1em;
+}
+
+
+.color{
     width: 4em;
     height: 2em;
+    margin-left: 1em;
+}
+
+.colorBel{
+    width: 2.5em;
+    height: 1.5em;
     margin-left: 1em;
 }
 
@@ -226,10 +255,10 @@ background-color: black;
 }
 
 #clear{
-    position: absolute;
+    position: relative;
+    margin-top: 1em;
     left: 50%;
     transform: translateX(-50%);
-    bottom: 3%;
     padding: 0.2em 0.6em;
     border: 2.5px solid #f14e2f;
     border-radius: 0.34em;
@@ -256,6 +285,23 @@ background-color: black;
     }
 }
 
+.reactBel{
+    position: relative;
+    margin-left: 0.8em;
+    margin-top: 0.4em;
+    font-weight: bold;
+    font-size: 1.2em;
+
+    input{
+        position: absolute;
+        top: 8%;
+        margin-left: 5px;
+        width: 1.5em;
+        height: 1.5em;
+    }
+
+}
+
 .modeStep{
     position: relative;
     margin-left: 0.8em;
@@ -272,13 +318,13 @@ background-color: black;
     }
 }
 
+#reactBelSetings{
+    display: none;
+}
+
 @media (max-width: 1200px) {
     .brushes{
         display: block;
-    }
-    .settings{
-
-        height: 27.5em;
     }
     .number{
         width: 1.4em; 
@@ -289,6 +335,9 @@ background-color: black;
 @media only screen 
 and (min-device-width : 320px) 
 and (max-device-width : 480px) {
+    #okrSelect{
+        font-size: 0.6em;
+    }
 
     .btn__start{
         font-size: 13px;
@@ -308,7 +357,7 @@ and (max-device-width : 480px) {
             margin-top: 0em;
             margin-left: 0.3em;
         }
-        height: 31em;
+       // height: 34em;
     }
 
     

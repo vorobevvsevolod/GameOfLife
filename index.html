@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <title>Game of Life</title>
 </head>
-<body onclick="bodyClick(event)" id="body">
+<body  id="body">
     
     <div class="setting">
         <button class="btn__start" id="start" onclick="StartGame()">Старт</button>
@@ -26,53 +26,91 @@
     
     <div class="settings" id="settings">
         <h1>Настройки</h2>
-        <h3>Правила игры:</h3>
-        <p class="burn">Рождение от 
-            <input type="number" class="number" value="3" min="0" max="8" id="burnTo"> до 
-            <input type="number" class="number" value="3" min="0" max="8"id="burnUp">
-        </p>
-        <p class="burn">Выживание от 
-            <input type="number" class="number" value="2" min="0" max="8" id="saveTo"> до 
-            <input type="number" class="number" value="3" min="0" max="8"id="saveUp">
-        </p>
-        <div class="speedP">Скорость:
-        <select id="speedSelect" onchange="changeSelect()" >
-            <option value="1000">1x</option>
-            <option value="500">2x</option>
-            <option value="200">5x</option>
-            <option  value="100">10x</option>
-            <option  value="50">20x</option>
-            <option value="20">50x</option>
-            <option selected="speedSelect" value="1">100x</option>
-            </select>
+            <div class="reactBel">
+                Реакция Белоусова: <input type="checkbox" onchange="reactBelchange()" id="reactBel">
+            </div>
+             
+        <div id="showSetings">
+            <h3 >Правила игры:</h3>
+            <div class="speedP okr">Окрестность:
+                <select id="okrSelect" onchange="ChangeOkr()" >
+                    <option value="0">Мура</option>
+                    <option value="1">Фон Неймана</option>
+                </select>
+                </div>
+            <p class="burn">Рождение от 
+                <input type="number" class="number" value="3" min="0" max="8" id="burnTo"> до 
+                <input type="number" class="number" value="3" min="0" max="8" id="burnUp">
+            </p>
+            <p class="burn">Выживание от 
+                <input type="number" class="number" value="2" min="0" max="8" id="saveTo"> до 
+                <input type="number" class="number" value="3" min="0" max="8"id="saveUp">
+            </p>
+            <div class="speedP">Скорость:
+            <select id="speedSelect" onchange="changeSelect()" >
+                <option value="1000">1x</option>
+                <option value="500">2x</option>
+                <option value="200">5x</option>
+                <option value="100">10x</option>
+                <option value="50">20x</option>
+                <option value="20">50x</option>
+                <option selected="speedSelect" value="1">100x</option>
+                </select>
+            </div>
+            <div class="color__txt">Цвет:
+                <input type="color" id="colorBody" class="color" value="#000000"/>
+                <input type="color" id="color" class="color" value="#E23CD4"/>
+            </div>
+            <div class="resolution__txt">Разрешение:
+                <input type="range" min="2" max="25" value="3" id="resolution">
+            </div>
+            <select id="presset" onchange="changePressetRuls()" >
+                <option value="1" >B3/S23</option>
+                <option value="2" >B3/Sall</option>
+                <option value="3" >B5678/S45678</option>
+                <option value="4" >B1/Sall</option>
+                <option value="5" >B2/S2345</option>
+                </select>
+            
+            <div class="modeStep">
+                Режим шаг: <input type="checkbox" onchange="modeStepChecked()" id="checkboxStep">
+            </div>
+            <div class="brushes">
+                Режим кисти: <button id="brushes__btn" >Рисование</button>
+            </div>
+            <button id="clear" onclick="clearMap()">Очистить поле</button>
         </div>
-        <div class="color__txt">Цвет:
-            <input type="color" id="colorBody" value="#000000"/>
-            <input type="color" id="color" value="#E23CD4"/>
+
+        <div id="reactBelSetings">
+            <div class="color__txt color__cell">Цвет:
+                <input type="color" id="colorCellOne" class="colorBel" value="#E39EA3"/>
+                <input type="color" id="colorCellTwo" class="colorBel" value="#8BAEC9"/>
+                <input type="color" id="colorCellThree" class="colorBel" value="#62588D"/>
+            </div>
+            <div class="resolution__txt">Разрешение:
+                <input type="range" min="2" max="25" value="3" id="resolution2">
+            </div>
+            <div class="speedP">Скорость:
+                <select id="speedSelect2" onchange="changeSelect()" >
+                    <option value="1000">1x</option>
+                    <option value="500">2x</option>
+                    <option value="200">5x</option>
+                    <option value="100">10x</option>
+                    <option value="50">20x</option>
+                    <option value="20">50x</option>
+                    <option selected="speedSelect2" value="1">100x</option>
+                    </select>
+                </div>
+            
         </div>
-        <div class="resolution__txt">Разрешение:
-            <input type="range" min="2" max="25" value="3" id="resolution">
-        </div>
-        <select id="presset" onchange="changePressetRuls()" >
-            <option value="1">B3/S23</option>
-            <option value="2">B3/Sall</option>
-            <option value="3">B5678/S45678</option>
-            <option value="4">B1/Sall</option>
-            <option value="5">B2/S2345</option>
-            </select>
-        <button id="clear" onclick="clearMap()">Очистить поле</button>
-        <div class="modeStep">
-            Режим шаг: <input type="checkbox" onchange="modeStepChecked()" id="checkboxStep">
-        </div>
-        <div class="brushes">
-            Режим кисти: <button id="brushes__btn" >Рисование</button>
-        </div>
+        
     </div>
-    <canvas id="canvas">
+    <canvas id="canvas" onclick="bodyClick(event)">
 
     </canvas>
 </body>
 
-<script src="index.js"></script>
-<script src="events.js"></script>
+<script src="js/index.js"></script>
+<script src="js/events.js"></script>
+<script src="js/BivariateClass.js"></script>
 </html>
