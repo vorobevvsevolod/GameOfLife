@@ -16,8 +16,8 @@ class Bivariate{
     constructor(width, height){
         this.width = width + 2;
         this.height = height + 2;
-        this.Map = [width * height];
-        this.NewMap = [width * height];
+        this.Map = new Uint8ClampedArray(width * height);
+        this.NewMap = new Uint8ClampedArray(width * height);
         
         if(!Bivariate.ReactBelMode)this.StartLife(); else this.StartLifeBel();
     }
