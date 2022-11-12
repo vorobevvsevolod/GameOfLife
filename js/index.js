@@ -151,11 +151,11 @@ const PrintMap = () =>{
     }
 }
 
-let time = 0;
+//let time = 0;
 
 //По кадровая отрисовка игры
 const GameStep = (timestamp) =>{
-    const diff = timestamp - time;
+    //const diff = timestamp - time;
     let progress;
     if (startTime === null) startTime = timestamp;
     progress = timestamp - startTime;
@@ -165,8 +165,8 @@ const GameStep = (timestamp) =>{
         render(TwoGame.Map, widthMap, Bivariate.ReactBelMode, resolution, colorRGB);
         startTime = timestamp
     }
-    time = timestamp;
-    generationP.textContent = "Поколение: "+ Math.floor(1000/ diff);
+    //time = timestamp;
+    generationP.textContent = "Поколение: "+ TwoGame.countGeneration;
     requestFrameId = requestAnimationFrame(GameStep); 
 }
 
