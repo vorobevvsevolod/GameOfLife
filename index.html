@@ -59,10 +59,10 @@
             </div>
             <div class="color__txt">Цвет:
                 <input type="color" id="colorBody" class="color" value="#000000"/>
-                <input type="color" id="color" class="color" value="#E23CD4"/>
+                <input type="color" id="color" class="color" value="#ff0000"/>
             </div>
             <div class="resolution__txt">Разрешение:
-                <input type="range" min="2" max="25" value="3" id="resolution">
+                <input type="range" min="1" max="25" value="1" id="resolution">
             </div>
             <select id="presset" onchange="changePressetRuls()" >
                 <option value="1" >B3/S23</option>
@@ -83,12 +83,12 @@
 
         <div id="reactBelSetings">
             <div class="color__txt color__cell">Цвет:
-                <input type="color" id="colorCellOne" class="colorBel" value="#E39EA3"/>
-                <input type="color" id="colorCellTwo" class="colorBel" value="#8BAEC9"/>
+                <input type="color" id="colorCellOne" class="colorBel" value="#A81F15"/>
+                <input type="color" id="colorCellTwo" class="colorBel" value="#8E58A7"/>
                 <input type="color" id="colorCellThree" class="colorBel" value="#62588D"/>
             </div>
             <div class="resolution__txt">Разрешение:
-                <input type="range" min="2" max="25" value="3" id="resolution2">
+                <input type="range" min="1" max="25" value="1" id="resolution2">
             </div>
             <div class="speedP">Скорость:
                 <select id="speedSelect2" onchange="changeSelect()" >
@@ -101,16 +101,15 @@
                     <option selected="speedSelect2" value="1">100x</option>
                     </select>
                 </div>
-            
         </div>
-        
     </div>
-    <canvas id="canvas" onclick="bodyClick(event)">
-
+    <canvas id="canvas" onclick="bodyClickEvent(event)">
     </canvas>
 </body>
-
+<script src="js/gpu-browser.min.js"></script>
+<script src="js/BivariateClass.js"></script>
 <script src="js/index.js"></script>
 <script src="js/events.js"></script>
-<script src="js/BivariateClass.js"></script>
+
+
 </html>

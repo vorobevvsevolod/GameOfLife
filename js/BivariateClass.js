@@ -14,8 +14,8 @@ class Bivariate{
     
 
     constructor(width, height){
-        this.width = width + 2;
-        this.height = height + 2;
+        this.width = width ;
+        this.height = height;
         this.Map = new Uint8ClampedArray(width * height);
         this.NewMap = new Uint8ClampedArray(width * height);
         

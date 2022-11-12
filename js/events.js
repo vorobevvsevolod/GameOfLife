@@ -9,6 +9,11 @@ let pressetRuls = document.getElementById('presset');
 let okrRuls = document.getElementById('okrSelect')
 //Режим кисти
 let buttonBrushesMode = document.getElementById('brushes__btn')
+
+//Реакци белоусова
+
+
+
 //Событие изменения правил игры
 burnTo.addEventListener("input", (event) =>{
     if(burnTo.value > 8 && Bivariate.neighborhood == 0){
@@ -108,7 +113,10 @@ const changeSelect = () =>{
 //Событие изменения цвета клеток
 colorInput.addEventListener("input" , () =>{
     colorCell = colorInput.value;
-    contextCanvas.fillStyle = colorCell;
+    let Color = toRGB(colorCell);
+    colorRGB[0][0] = (1/255) * Color[0];
+    colorRGB[0][1] = (1/255) * Color[1];
+    colorRGB[0][2] = (1/255) * Color[2];
     requestAnimationFrame(PrintRequstMap)
 }, false);
 
@@ -121,15 +129,14 @@ colorBodyInput.addEventListener("input", ()=>{
 //событие изменения resolution
 resolutionInput.addEventListener("input", () => {
     countGeneration = 0
-    resolution = resolutionInput.value;
-
+    resolution = Number(resolutionInput.value);
     restartGame();
     requestAnimationFrame(PrintRequstMap)
 });
 
 resolutionInput2.addEventListener("input", () => {
     countGeneration = 0
-    resolution = resolutionInput2.value;
+    resolution = Number(resolutionInput2.value);
 
     restartGame();
     requestAnimationFrame(PrintRequstMap)
@@ -197,37 +204,45 @@ let heightSetings = '';
 const reactBelchange = () =>{
 
     if(document.getElementById('reactBel').checked){
-        if(window.innerWidth >= 1200 || window.innerWidth <= 400){resolution = 7;resolutionInput2.value = 7}
-        if(window.innerWidth >= 1200 || window.innerWidth <= 400){resolution = 7;resolutionInput2.value = 7}
-        if(resolution == 3) {resolution = 5; resolutionInput2.value = 5} ;
-        document.getElementById('body').style.backgroundColor = colorCellOneInput.value;
         Bivariate.ReactBelMode = true;
-        TwoGame = new Bivariate(Math.floor(WIDHT / resolution),Math.floor(HEIGHT / resolution))
+        restartGame();
         document.getElementById('showSetings').style.display = 'none';
         document.getElementById('reactBelSetings').style.display = 'block';
     }else{
-        if(resolution == 5 || resolution == 7) resolution = 3;
         Bivariate.ReactBelMode = false;
-        TwoGame = new Bivariate(Math.floor(WIDHT / resolution),Math.floor(HEIGHT / resolution))
+        restartGame();
         document.getElementById('showSetings').style.display = 'block';
         document.getElementById('reactBelSetings').style.display = 'none';
-        contextCanvas.fillStyle = colorCell;
-        document.getElementById('body').style.backgroundColor = colorBodyInput.value;
     }
 }
 
 //Изменения цвет в реакции белоусова
 
 colorCellOneInput.addEventListener("input", () =>{
-    document.getElementById('body').style.backgroundColor = colorCellOneInput.value;
+    colorCellOne = colorCellOneInput.value;
+    let Color = toRGB(colorCellOne);
+    colorRGB[1][0] = (1/255) * Color[0];
+    colorRGB[1][1] = (1/255) * Color[1];
+    colorRGB[1][2] = (1/255) * Color[2];
+    requestAnimationFrame(PrintRequstMap);
 }, false)
 
 colorCellTwoInput.addEventListener("input", () =>{
     colorCellTwo = colorCellTwoInput.value;
+    let Color = toRGB(colorCellTwo);
+    colorRGB[2][0] = (1/255) * Color[0];
+    colorRGB[2][1] = (1/255) * Color[1];
+    colorRGB[2][2] = (1/255) * Color[2];
+    requestAnimationFrame(PrintRequstMap);
 }, false)
 
 colorCellThreeInput.addEventListener("input", () =>{
     colorCellThree = colorCellThreeInput.value;
+    let Color = toRGB(colorCellThree);
+    colorRGB[3][0] = (1/255) * Color[0];
+    colorRGB[3][1] = (1/255) * Color[1];
+    colorRGB[3][2] = (1/255) * Color[2];
+    requestAnimationFrame(PrintRequstMap);
 }, false)
 
 
